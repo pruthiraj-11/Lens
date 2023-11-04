@@ -1,0 +1,10 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Lens" parent="Theme.MaterialComponents.Light">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimaryDark">#829F82</item>
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Lens" parent="Base.Theme.Lens" />
+</resources>
