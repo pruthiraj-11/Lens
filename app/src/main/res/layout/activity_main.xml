@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
@@ -21,7 +21,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.chip.ChipGroup
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:chipSpacingHorizontal="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -111,6 +111,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
+            android:name="com.app.lens.Fragments.BarCodeScannerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </ScrollView>
