@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
             fragmentTransaction.commit();
         });
-        binding.chipDigitalInk.setOnClickListener(view -> {
-            Fragment fragment=new HandwritingRecognitionFragment();
-            FragmentManager fragmentManager=getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
-            fragmentTransaction.commit();
-        });
+//        binding.chipDigitalInk.setOnClickListener(view -> {
+//            Fragment fragment=new HandwritingRecognitionFragment();
+//            FragmentManager fragmentManager=getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.fragmentContainerView,fragment);
+//            fragmentTransaction.commit();
+//        });
         binding.chipTextRecognition.setOnClickListener(view -> {
             Fragment fragment=new TextRecognitionFragment();
             FragmentManager fragmentManager=getSupportFragmentManager();

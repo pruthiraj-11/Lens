@@ -64,6 +64,8 @@ dependencies {
     // To recognize Japanese script
     implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
     implementation("com.google.mlkit:text-recognition-korean:16.0.0")
+    implementation("com.google.mlkit:translate:17.0.1")
+    implementation("com.google.mlkit:language-id:17.0.4")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.intuit.sdp:sdp-android:1.1.0")

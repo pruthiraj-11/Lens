@@ -69,6 +69,7 @@
                     style="@style/Widget.MaterialComponents.Chip.Choice"
                     android:layout_width="wrap_content"
                     android:layout_height="55dp"
+                    android:visibility="gone"
                     android:text="Handwriting Recognition"
                     android:textColor="@color/black"
                     android:textStyle="bold"

@@ -44,6 +44,7 @@ public class TextRecognitionFragment extends Fragment implements ImageAnalysis.A
     FragmentTextRecognitionBinding binding;
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private ImageCapture imageCapture;
+    TextRecognizer textRecognizer;
     private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA"};
     public TextRecognitionFragment() {}
     @Override
@@ -80,7 +81,7 @@ public class TextRecognitionFragment extends Fragment implements ImageAnalysis.A
     }
 
     public void detectText(InputImage image){
-        TextRecognizer textRecognizer= TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        textRecognizer= TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         Task<Text> task= textRecognizer.process(image).addOnSuccessListener(text -> {
             StringBuilder result=new StringBuilder();
             for(Text.TextBlock block:text.getTextBlocks()){
