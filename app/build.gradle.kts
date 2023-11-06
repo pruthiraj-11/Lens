@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.camera:camera-view:1.3.0")
     implementation("androidx.camera:camera-extensions:1.3.0")
     implementation("com.journeyapps:zxing-android-embedded:4.1.0")
+    implementation("com.github.yuriy-budiyev:code-scanner:2.3.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.intuit.sdp:sdp-android:1.1.0")
