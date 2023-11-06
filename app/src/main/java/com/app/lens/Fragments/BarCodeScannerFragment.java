@@ -84,9 +84,13 @@ public class BarCodeScannerFragment extends Fragment implements ImageAnalysis.An
         barcodeScanner.process(image).addOnSuccessListener(new OnSuccessListener<List<Barcode>>() {
             @Override
             public void onSuccess(List<Barcode> barcodes) {
-                for(Barcode barcode:barcodes){
-                    String barcodeData=barcode.getRawValue();
-                    Toast.makeText(getContext(),barcodeData,Toast.LENGTH_SHORT).show();
+                if(!barcodes.isEmpty()){
+                    for(Barcode barcode:barcodes){
+                        String barcodeData=barcode.getRawValue();
+                        Toast.makeText(getContext(),barcodeData,Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(),"Image doesn't contain any Barcode",Toast.LENGTH_SHORT).show();
                 }
             }
         }).addOnFailureListener(e -> Toast.makeText(getContext(),e.getMessage(),Toast.LENGTH_SHORT).show());

@@ -55,6 +55,15 @@ dependencies {
     implementation("androidx.camera:camera-extensions:1.3.0")
     implementation("com.journeyapps:zxing-android-embedded:4.1.0")
     implementation("com.github.yuriy-budiyev:code-scanner:2.3.2")
+    // To recognize Latin script
+    implementation("com.google.mlkit:text-recognition:16.0.0")
+    // To recognize Chinese script
+    implementation("com.google.mlkit:text-recognition-chinese:16.0.0")
+    // To recognize Devanagari script
+    implementation("com.google.mlkit:text-recognition-devanagari:16.0.0")
+    // To recognize Japanese script
+    implementation("com.google.mlkit:text-recognition-japanese:16.0.0")
+    implementation("com.google.mlkit:text-recognition-korean:16.0.0")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation("com.intuit.sdp:sdp-android:1.1.0")
