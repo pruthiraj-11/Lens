@@ -31,8 +31,9 @@
 
         <Spinner
             android:id="@+id/sourcespinner"
+            android:popupBackground="@drawable/spinner_popup_bg"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/dropdownListPreferredItemHeight"
             android:layout_margin="@dimen/_3sdp"
             android:layout_weight="1"
             android:gravity="center"
@@ -47,8 +48,9 @@
 
         <Spinner
             android:id="@+id/destspinner"
+            android:popupBackground="@drawable/spinner_popup_bg"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="?attr/dropdownListPreferredItemHeight"
             android:layout_margin="@dimen/_3sdp"
             android:layout_weight="1"
             android:gravity="center"
@@ -62,11 +64,12 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="Enter source text"
         android:padding="@dimen/_5sdp"
+        app:endIconMode="clear_text"
+        app:endIconTint="#829F82"
         android:textColorHint="@color/black"
-        app:hintTextColor="@color/black"
+        app:hintTextColor="#829F82"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_60sdp">
-
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sourcetext"
             android:ems="10"
@@ -123,7 +126,6 @@
 
     <TextView
         android:id="@+id/translatedtext"
-        android:text="Translated text"
         android:textAlignment="center"
         android:textColor="#CC8824"
         android:textStyle="bold"
