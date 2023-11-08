@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/black_shade1"
     tools:context=".Fragments.LanguageTranslationFragment">
 
     <TextView
@@ -44,8 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/baseline_arrow_right_alt_24"
-            app:tint="@color/white" />
+            android:src="@drawable/baseline_arrow_right_alt_24" />
 
         <Spinner
             android:id="@+id/destspinner"
@@ -62,12 +60,12 @@
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:hint="Source Text"
+        android:hint="Enter source text"
         android:padding="@dimen/_5sdp"
-        android:textColorHint="@color/white"
-        app:hintTextColor="@color/white"
+        android:textColorHint="@color/black"
+        app:hintTextColor="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp">
+        android:layout_height="@dimen/_60sdp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/sourcetext"
@@ -75,8 +73,8 @@
             android:importantForAutofill="no"
             android:inputType="textImeMultiLine|textMultiLine"
             android:textSize="@dimen/_14ssp"
-            android:textColorHint="@color/white"
-            android:textColor="@color/white"
+            android:textColorHint="@color/black"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -84,8 +82,7 @@
     <TextView
         android:text="Or"
         android:textAlignment="center"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="@dimen/_20ssp"
         android:padding="@dimen/_4sdp"
@@ -96,8 +93,8 @@
 
     <ImageView
         android:id="@+id/mic"
-        android:layout_width="@dimen/_70sdp"
-        android:layout_height="@dimen/_70sdp"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/_10sdp"
         app:tint="#CF8313"
@@ -106,7 +103,7 @@
     <TextView
         android:text="Say Something"
         android:textAlignment="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="@dimen/_15ssp"
         android:layout_gravity="center"
         android:layout_width="match_parent"
@@ -115,12 +112,14 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/translatebtn"
         android:text="Translate"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold"
         android:layout_marginStart="@dimen/_20sdp"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:textAllCaps="false"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="@dimen/_54sdp"/>
 
     <TextView
         android:id="@+id/translatedtext"
