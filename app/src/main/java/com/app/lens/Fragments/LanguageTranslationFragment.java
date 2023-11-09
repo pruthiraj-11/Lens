@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.app.lens.R;
 import com.app.lens.databinding.FragmentLanguageTranslationBinding;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -40,7 +41,7 @@ public class LanguageTranslationFragment extends Fragment {
 //    String[] toLanguages={"To","English","Afrikaans","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Czech","Welsh","Hindi","Urdu"};
     List<String> languageListSource=new ArrayList<>();
     List<String> languageListDest=new ArrayList<>();
-    ArrayAdapter arrayAdapterSource,arrayAdapterDest;
+    ArrayAdapter arrayAdapter;
     String srcLangauge,destLanguage;
     TranslatorOptions options;
     Translator translator;
@@ -48,8 +49,6 @@ public class LanguageTranslationFragment extends Fragment {
     public LanguageTranslationFragment() {
         languageListSource=TranslateLanguage.getAllLanguages();
         languageListDest=TranslateLanguage.getAllLanguages();
-//        languageListSource.add(0,"From");
-//        languageListDest.add(0,"To");
     }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,36 +63,25 @@ public class LanguageTranslationFragment extends Fragment {
                 }
             }
         });
-        arrayAdapterSource=new ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,languageListSource);
-        arrayAdapterSource.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.sourcespinner.setAdapter(arrayAdapterSource);
-        arrayAdapterDest=new ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,languageListDest);
-        arrayAdapterDest.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        binding.destspinner.setAdapter(arrayAdapterDest);
+        arrayAdapter=new ArrayAdapter(requireContext(), R.layout.spinner_dropdown_item,languageListSource);
+//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.sourcespinner.setAdapter(arrayAdapter);
+        binding.destspinner.setAdapter(arrayAdapter);
+
 //        String[] languageListFrom = new String[languageList.size()];
 //        for(int i=0;i<languageList.size();i++){
 //            languageListFrom[i]= languageList.get(i);
 //        }
-        binding.sourcespinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.sourcespinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getContext(), languageListSource.get(i), Toast.LENGTH_SHORT).show();
-                srcLangauge=languageListSource.get(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                srcLangauge=binding.sourcespinner.getText().toString();
             }
         });
-        binding.destspinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        binding.destspinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getContext(), languageListDest.get(i), Toast.LENGTH_SHORT).show();
-                destLanguage=languageListDest.get(i);
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                destLanguage=binding.destspinner.getText().toString();
             }
         });
 
