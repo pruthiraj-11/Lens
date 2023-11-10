@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -33,11 +32,12 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class LanguageTranslationFragment extends Fragment {
     FragmentLanguageTranslationBinding binding;
-    String[] languages={"From","English","Afrikaans","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Czech","Welsh","Hindi","Urdu"};
+    String[] languages={"AFRIKAANS","ALBANIAN","ARABIC","BELARUSIAN","BULGARIAN","BENGALI","CATALAN","CHINESE","CROATIAN","CZECH","DANISH","DUTCH","ENGLISH","ESPERANTO","ESTONIAN","FINNISH","FRENCH","GALICIAN","GEORGIAN","GERMAN","GREEK","GUJARATI","HAITIAN_CREOLE","HEBREW","HINDI","HUNGARIAN","ICELANDIC","INDONESIAN","IRISH","ITALIAN","JAPANESE","KANNADA"
+    ,"KOREAN","LITHUANIAN","LATVIAN","MACEDONIAN","MARATHI","MALAY","MALTESE","NORWEGIAN","PERSIAN","POLISH","PORTUGUESE","ROMANIAN","RUSSIAN","SLOVAK","SLOVENIAN","SPANISH","SWEDISH","SWAHILI"
+    ,"TAGALOG","TAMIL","TELUGU","THAI","TURKISH","UKRAINIAN","URDU","VIETNAMESE","WELSH"};
     List<String> languageListSource=new ArrayList<>();
     List<String> languageListDest=new ArrayList<>();
     ArrayAdapter arrayAdapter;
@@ -62,14 +62,10 @@ public class LanguageTranslationFragment extends Fragment {
                 }
             }
         });
-        arrayAdapter=new ArrayAdapter(requireContext(), R.layout.spinner_dropdown_item,languageListSource);
+        arrayAdapter=new ArrayAdapter(requireContext(), R.layout.spinner_dropdown_item,languages);
         binding.sourcespinner.setAdapter(arrayAdapter);
         binding.destspinner.setAdapter(arrayAdapter);
 
-//        String[] languageListFrom = new String[languageList.size()];
-//        for(int i=0;i<languageList.size();i++){
-//            languageListFrom[i]= languageList.get(i);
-//        }
         binding.sourcespinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
