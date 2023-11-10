@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -32,6 +30,7 @@ import com.google.mlkit.nl.translate.TranslatorOptions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class LanguageTranslationFragment extends Fragment {
     FragmentLanguageTranslationBinding binding;
@@ -44,7 +43,6 @@ public class LanguageTranslationFragment extends Fragment {
     String srcLangauge,destLanguage;
     TranslatorOptions options;
     Translator translator;
-
     public LanguageTranslationFragment() {
         languageListSource=TranslateLanguage.getAllLanguages();
         languageListDest=TranslateLanguage.getAllLanguages();
@@ -53,13 +51,10 @@ public class LanguageTranslationFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding=FragmentLanguageTranslationBinding.inflate(inflater);
 
-        ActivityResultLauncher<Intent> launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
-            @Override
-            public void onActivityResult(ActivityResult o) {
-                if (o.getResultCode()== RESULT_OK && o.getData()!=null){
-                    Intent data=o.getData();
-                    translatortext(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
-                }
+        ActivityResultLauncher<Intent> launcher=registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), o -> {
+            if (o.getResultCode()== RESULT_OK && o.getData()!=null){
+                Intent data=o.getData();
+                translatortext(Objects.requireNonNull(Objects.requireNonNull(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS))).get(0));
             }
         });
         arrayAdapter=new ArrayAdapter(requireContext(), R.layout.spinner_dropdown_item,languages);
@@ -80,25 +75,22 @@ public class LanguageTranslationFragment extends Fragment {
         });
 
         binding.translatebtn.setOnClickListener(view -> {
-            if (!binding.sourcetext.getText().toString().isEmpty()){
+            if (!Objects.requireNonNull(binding.sourcetext.getText()).toString().isEmpty()){
                 translatortext(binding.sourcetext.getText().toString());
             } else {
                 showSnackBar("Please enter some text");
             }
         });
-        binding.mic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                binding.sourcetext.setText("");
-                Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        binding.mic.setOnClickListener(view -> {
+            binding.sourcetext.setText("");
+            Intent intent=new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
 //                intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-                intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak to translate");
-                try {
-                    launcher.launch(intent);
-                } catch (ActivityNotFoundException e){
-                    showSnackBar(e.getLocalizedMessage());
-                }
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Speak to translate");
+            try {
+                launcher.launch(intent);
+            } catch (ActivityNotFoundException e){
+                showSnackBar(e.getLocalizedMessage());
             }
         });
         return binding.getRoot();
@@ -113,12 +105,9 @@ public class LanguageTranslationFragment extends Fragment {
         translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                translator.translate(binding.sourcetext.getText().toString()).addOnSuccessListener(new OnSuccessListener<String>() {
-                    @Override
-                    public void onSuccess(String s) {
-                        binding.translatedtext.setText(s);
-                        translator.close();
-                    }
+                translator.translate(binding.sourcetext.getText().toString()).addOnSuccessListener(s1 -> {
+                    binding.translatedtext.setText(s1);
+                    translator.close();
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -135,12 +124,7 @@ public class LanguageTranslationFragment extends Fragment {
     }
     private void showSnackBar(String text){
         Snackbar snackbar = Snackbar.make(binding.frameLayout3, text, Snackbar.LENGTH_LONG);
-        snackbar.setAction("OK", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                snackbar.dismiss();
-                            }
-                        });
+        snackbar.setAction("OK", view -> snackbar.dismiss());
         snackbar.show();
     }
     @Override
