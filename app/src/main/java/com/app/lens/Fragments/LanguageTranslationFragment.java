@@ -37,8 +37,7 @@ import java.util.Locale;
 
 public class LanguageTranslationFragment extends Fragment {
     FragmentLanguageTranslationBinding binding;
-//    String[] fromLanguages={"From","English","Afrikaans","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Czech","Welsh","Hindi","Urdu"};
-//    String[] toLanguages={"To","English","Afrikaans","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Czech","Welsh","Hindi","Urdu"};
+    String[] languages={"From","English","Afrikaans","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Czech","Welsh","Hindi","Urdu"};
     List<String> languageListSource=new ArrayList<>();
     List<String> languageListDest=new ArrayList<>();
     ArrayAdapter arrayAdapter;
@@ -59,12 +58,11 @@ public class LanguageTranslationFragment extends Fragment {
             public void onActivityResult(ActivityResult o) {
                 if (o.getResultCode()== RESULT_OK && o.getData()!=null){
                     Intent data=o.getData();
-                    binding.sourcetext.setText(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
+                    translatortext(data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).get(0));
                 }
             }
         });
         arrayAdapter=new ArrayAdapter(requireContext(), R.layout.spinner_dropdown_item,languageListSource);
-//        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.sourcespinner.setAdapter(arrayAdapter);
         binding.destspinner.setAdapter(arrayAdapter);
 
@@ -87,33 +85,7 @@ public class LanguageTranslationFragment extends Fragment {
 
         binding.translatebtn.setOnClickListener(view -> {
             if (!binding.sourcetext.getText().toString().isEmpty()){
-                binding.translatedtext.setText("");
-                options = new TranslatorOptions.Builder().setSourceLanguage(srcLangauge).setTargetLanguage(destLanguage).build();
-                translator =Translation.getClient(options);
-                getLifecycle().addObserver(translator);
-                DownloadConditions conditions = new DownloadConditions.Builder().build();
-                translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        translator.translate(binding.sourcetext.getText().toString()).addOnSuccessListener(new OnSuccessListener<String>() {
-                            @Override
-                            public void onSuccess(String s) {
-                                binding.translatedtext.setText(s);
-                                translator.close();
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                showSnackBar(e.getLocalizedMessage());
-                            }
-                        });
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-
-                    }
-                });
+                translatortext(binding.sourcetext.getText().toString());
             } else {
                 showSnackBar("Please enter some text");
             }
@@ -134,6 +106,36 @@ public class LanguageTranslationFragment extends Fragment {
             }
         });
         return binding.getRoot();
+    }
+
+    public void translatortext(String s){
+        binding.translatedtext.setText("");
+        options = new TranslatorOptions.Builder().setSourceLanguage(srcLangauge).setTargetLanguage(destLanguage).build();
+        translator =Translation.getClient(options);
+        getLifecycle().addObserver(translator);
+        DownloadConditions conditions = new DownloadConditions.Builder().build();
+        translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                translator.translate(binding.sourcetext.getText().toString()).addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String s) {
+                        binding.translatedtext.setText(s);
+                        translator.close();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showSnackBar(e.getLocalizedMessage());
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
     private void showSnackBar(String text){
         Snackbar snackbar = Snackbar.make(binding.frameLayout3, text, Snackbar.LENGTH_LONG);
