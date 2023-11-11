@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -34,9 +35,9 @@ import java.util.Objects;
 
 public class LanguageTranslationFragment extends Fragment {
     FragmentLanguageTranslationBinding binding;
-    String[] languages={"AFRIKAANS","ALBANIAN","ARABIC","BELARUSIAN","BULGARIAN","BENGALI","CATALAN","CHINESE","CROATIAN","CZECH","DANISH","DUTCH","ENGLISH","ESPERANTO","ESTONIAN","FINNISH","FRENCH","GALICIAN","GEORGIAN","GERMAN","GREEK","GUJARATI","HAITIAN_CREOLE","HEBREW","HINDI","HUNGARIAN","ICELANDIC","INDONESIAN","IRISH","ITALIAN","JAPANESE","KANNADA"
-    ,"KOREAN","LITHUANIAN","LATVIAN","MACEDONIAN","MARATHI","MALAY","MALTESE","NORWEGIAN","PERSIAN","POLISH","PORTUGUESE","ROMANIAN","RUSSIAN","SLOVAK","SLOVENIAN","SPANISH","SWEDISH","SWAHILI"
-    ,"TAGALOG","TAMIL","TELUGU","THAI","TURKISH","UKRAINIAN","URDU","VIETNAMESE","WELSH"};
+    String[] languages={"Afrikaans","Albanian","Arabic","Belarusian","Bulgarian","Bengali","Catalan","Chinese","Croatian","Czech","Danish","Dutch","English","Esperanto","Estonian","Finnish","French","Galician","Georgian","German","Greek","Gujarati","Haitian_Creole","Hebrew","Hindi","Hungarian","Icelandic","Indonesian","Irish","Italian","Japanese","Kannada"
+    ,"Korean","Lithuanian","Latvian","Macedonian","Marathi","Malay","Maltese","Norwegian","Persian","Polish","Portuguese","Romanian","Russian","Slovak","Slovenian","Spanish","Swedish","Swahili"
+    ,"Tagalog","Tamil","Telugu","Thai","Turkish","Ukrainian","Urdu","Vietnamese","Welsh"};
     List<String> languageListSource=new ArrayList<>();
     List<String> languageListDest=new ArrayList<>();
     ArrayAdapter arrayAdapter;
@@ -64,13 +65,15 @@ public class LanguageTranslationFragment extends Fragment {
         binding.sourcespinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                srcLangauge=binding.sourcespinner.getText().toString();
+                srcLangauge=languageListSource.get(i);
+//                Toast.makeText(getContext(), srcLangauge+languageListSource.get(i), Toast.LENGTH_LONG).show();
             }
         });
         binding.destspinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                destLanguage=binding.destspinner.getText().toString();
+                destLanguage=languageListDest.get(i);
+//                Toast.makeText(getContext(), destLanguage+languageListDest.get(i), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -93,15 +96,22 @@ public class LanguageTranslationFragment extends Fragment {
                 showSnackBar(e.getLocalizedMessage());
             }
         });
+
+        binding.langauageswap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return binding.getRoot();
     }
 
-    public void translatortext(String s){
+    public void translatortext(String s) {
         binding.translatedtext.setText("");
         options = new TranslatorOptions.Builder().setSourceLanguage(srcLangauge).setTargetLanguage(destLanguage).build();
         translator =Translation.getClient(options);
         getLifecycle().addObserver(translator);
-        DownloadConditions conditions = new DownloadConditions.Builder().build();
+        DownloadConditions conditions = new DownloadConditions.Builder().requireWifi().build();
         translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {

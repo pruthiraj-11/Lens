@@ -37,6 +37,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <ImageView
+            android:id="@+id/langauageswap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
