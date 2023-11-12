@@ -133,14 +133,18 @@
 
     <TextView
         android:id="@+id/translatedtext"
-        android:textAlignment="center"
-        android:textColor="#CC8824"
-        android:textStyle="bold"
-        android:textSize="@dimen/_15ssp"
-        android:padding="@dimen/_4sdp"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_20sdp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:gravity="center"
+        android:padding="@dimen/_4sdp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_15ssp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/_5sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:drawablePadding="@dimen/_5sdp"
+        app:drawableEndCompat="@drawable/baseline_content_copy_24" />
 
 </LinearLayout>

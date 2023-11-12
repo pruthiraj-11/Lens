@@ -3,10 +3,12 @@ package com.app.lens.Fragments;
 import static android.app.Activity.RESULT_OK;
 
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -79,7 +81,16 @@ public class LanguageTranslationFragment extends Fragment {
 
         binding.translatebtn.setOnClickListener(view -> {
             if (!Objects.requireNonNull(binding.sourcetext.getText()).toString().isEmpty()){
-                translatortext(binding.sourcetext.getText().toString());
+                if(binding.sourcespinner.getText().toString().equals("")&&
+                        binding.destspinner.getText().toString().equals("")){
+                    Toast.makeText(requireContext(),"Please choose source and destination language.",Toast.LENGTH_SHORT).show();
+                } else if(binding.sourcespinner.getText().toString().equals("")){
+                    Toast.makeText(requireContext(),"Please choose source language.",Toast.LENGTH_SHORT).show();
+                } else if (binding.destspinner.getText().toString().equals("")) {
+                    Toast.makeText(requireContext(),"Please choose destination language.",Toast.LENGTH_SHORT).show();
+                } else {
+                    translatortext(binding.sourcetext.getText().toString());
+                }
             } else {
                 showSnackBar("Please enter some text");
             }
@@ -95,6 +106,24 @@ public class LanguageTranslationFragment extends Fragment {
             } catch (ActivityNotFoundException e){
                 showSnackBar(e.getLocalizedMessage());
             }
+        });
+
+        binding.translatedtext.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                int[] textLocation = new int[2];
+                binding.translatedtext.getLocationOnScreen(textLocation);
+                if (event.getRawX()<=textLocation[0]+binding.translatedtext.getTotalPaddingLeft()) {
+                    // Left drawable was tapped
+                    return true;
+                }
+                if (event.getRawX()>=textLocation[0]+binding.translatedtext.getWidth()-binding.translatedtext.getTotalPaddingRight()){
+                    // Right drawable was tapped
+//                    Toast.makeText(requireContext(),"Clicked",Toast.LENGTH_SHORT).show();
+                    setClipboard(requireContext(),binding.translatedtext.getText().toString());
+                    return true;
+                }
+            }
+            return true;
         });
 
         binding.langauageswap.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +144,7 @@ public class LanguageTranslationFragment extends Fragment {
         translator.downloadModelIfNeeded().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                translator.translate(binding.sourcetext.getText().toString()).addOnSuccessListener(s1 -> {
+                translator.translate(s).addOnSuccessListener(s1 -> {
                     binding.translatedtext.setText(s1);
                     translator.close();
                 }).addOnFailureListener(new OnFailureListener() {
@@ -131,6 +160,21 @@ public class LanguageTranslationFragment extends Fragment {
                 Toast.makeText(requireContext(), e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void setClipboard(Context context, String text) {
+        if(!text.isEmpty()){
+            if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                clipboard.setText(text);
+                Toast.makeText(requireContext(),"Copied to clipboard.",Toast.LENGTH_SHORT).show();
+            } else {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData.newPlainText("", text);
+                clipboard.setPrimaryClip(clip);
+                Toast.makeText(requireContext(),"Copied to clipboard.",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
     private void showSnackBar(String text){
         Snackbar snackbar = Snackbar.make(binding.frameLayout3, text, Snackbar.LENGTH_LONG);
