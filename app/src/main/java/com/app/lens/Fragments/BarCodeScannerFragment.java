@@ -135,7 +135,7 @@ public class BarCodeScannerFragment extends Fragment implements ImageAnalysis.An
                     public void onImageSaved(@NonNull ImageCapture.OutputFileResults outputFileResults) {
                         try {
                             Uri imageUri = outputFileResults.getSavedUri();
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), imageUri);
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
                             InputImage inputImage=InputImage.fromBitmap(bitmap,0);
                             detectBarCode(inputImage);
                         } catch (IOException e) {
