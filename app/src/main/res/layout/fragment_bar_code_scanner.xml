@@ -64,6 +64,6 @@
         android:id="@+id/viewStub1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:inflatedId="@+id/inflatedviewsubtranslate"
+        android:inflatedId="@+id/inflatedviewsubbarcode"
         android:layout="@layout/barcode_result_layout" />
 </FrameLayout>

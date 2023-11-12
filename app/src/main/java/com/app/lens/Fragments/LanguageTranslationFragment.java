@@ -117,7 +117,6 @@ public class LanguageTranslationFragment extends Fragment {
                     return true;
                 }
                 if (event.getRawX()>=textLocation[0]+binding.translatedtext.getWidth()-binding.translatedtext.getTotalPaddingRight()){
-                    // Right drawable was tapped
 //                    Toast.makeText(requireContext(),"Clicked",Toast.LENGTH_SHORT).show();
                     setClipboard(requireContext(),binding.translatedtext.getText().toString());
                     return true;
