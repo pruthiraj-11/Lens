@@ -1,13 +1,15 @@
 package com.app.lens.Fragments;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,8 +45,6 @@ import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -75,8 +75,15 @@ public class LanguageIdentifierFragment extends Fragment implements ImageAnalysi
 
         ActivityResultLauncher<String> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.GetContent(), o -> {
             if(o!=null){
+                Bitmap bitmap = null;
+                ContentResolver contentResolver = requireContext().getContentResolver();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), o);
+                    if(Build.VERSION.SDK_INT < 28) {
+                        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, o);
+                    } else {
+                        ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, o);
+                        bitmap = ImageDecoder.decodeBitmap(source);
+                    }
                     InputImage inputImage=InputImage.fromBitmap(bitmap,0);
                     identifyLanguageFromText(inputImage);
                 } catch (IOException e) {

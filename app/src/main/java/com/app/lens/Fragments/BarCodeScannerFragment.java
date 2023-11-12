@@ -1,9 +1,12 @@
 package com.app.lens.Fragments;
 
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -62,8 +65,15 @@ public class BarCodeScannerFragment extends Fragment implements ImageAnalysis.An
 
         ActivityResultLauncher<String> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.GetContent(), o -> {
             if(o!=null){
+                Bitmap bitmap = null;
+                ContentResolver contentResolver = requireContext().getContentResolver();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), o);
+                    if(Build.VERSION.SDK_INT < 28) {
+                        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, o);
+                    } else {
+                        ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, o);
+                        bitmap = ImageDecoder.decodeBitmap(source);
+                    }
                     InputImage inputImage=InputImage.fromBitmap(bitmap,0);
                     detectBarCode(inputImage);
                 } catch (IOException e) {

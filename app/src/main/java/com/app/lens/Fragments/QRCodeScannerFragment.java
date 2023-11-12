@@ -1,9 +1,12 @@
 package com.app.lens.Fragments;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.graphics.Bitmap;
+import android.graphics.ImageDecoder;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -64,8 +67,15 @@ public class QRCodeScannerFragment extends Fragment {
 
         ActivityResultLauncher<String> activityResultLauncher=registerForActivityResult(new ActivityResultContracts.GetContent(), o -> {
             if(o!=null){
+                Bitmap bitmap = null;
+                ContentResolver contentResolver = requireContext().getContentResolver();
                 try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), o);
+                    if(Build.VERSION.SDK_INT < 28) {
+                        bitmap = MediaStore.Images.Media.getBitmap(contentResolver, o);
+                    } else {
+                        ImageDecoder.Source source = ImageDecoder.createSource(contentResolver, o);
+                        bitmap = ImageDecoder.decodeBitmap(source);
+                    }
                     InputImage inputImage=InputImage.fromBitmap(bitmap,0);
                     scanBarcodes(inputImage);
                 } catch (IOException e) {
